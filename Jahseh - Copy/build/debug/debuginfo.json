@@ -1,0 +1,16 @@
+[
+  {
+    "artifact": "frcJava (in project Jahseh - Copy)",
+    "target": "roborio",
+    "debugfile": "frcJava_roborio.debugconfig",
+    "project": "Jahseh - Copy",
+    "language": "java"
+  },
+  {
+    "artifact": "frcJava (in project Jahseh)",
+    "target": "roborio",
+    "debugfile": "frcJava_roborio.debugconfig",
+    "project": "Jahseh",
+    "language": "java"
+  }
+]
