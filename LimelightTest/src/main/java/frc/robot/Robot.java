@@ -38,6 +38,10 @@ public class Robot extends TimedRobot {
   private double m_LimelightDriveCommand = 0.0;
   private double m_LimelightSteerCommand = 0.0;
 
+  private NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
+  private NetworkTableEntry camMode = limelight.getEntry("camMode");
+  
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -47,6 +51,7 @@ public class Robot extends TimedRobot {
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
         SmartDashboard.putData("Auto choices", m_chooser);
+        camMode.setDouble(0);
   }
 
   /**
@@ -136,7 +141,6 @@ public class Robot extends TimedRobot {
         double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
         double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
         double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
-        double camMode = NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setDouble(0);
 
         if (tv < 1.0)
         {
