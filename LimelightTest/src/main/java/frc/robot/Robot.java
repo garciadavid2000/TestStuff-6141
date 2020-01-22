@@ -160,7 +160,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("ta", a);
         SmartDashboard.putNumber("tx", x);
         SmartDashboard.putNumber("ty", y);
-        SmartDashboard.putNumber("tv", v);      
+        SmartDashboard.putNumber("tv", v);
+        SmartDashboard.putNumber("d", estimateDistance());      
         
 
 
@@ -180,13 +181,7 @@ public class Robot extends TimedRobot {
         m_LimelightSteerCommand = steer_cmd;
 
         // try to drive forward until the target area reaches our desired area
-        if (estimateDistance() < d){
-            drive_cmd = (d - estimateDistance()) * DRIVE_K;
-        } else {
-            drive_cmd = (d + estimateDistance()) * DRIVE_K;
-        }
-        
-
+        drive_cmd = (DESIRED_TARGET_AREA - a) * DRIVE_K;
 
         // don't let the robot drive too fast into the goal
         if (drive_cmd > MAX_DRIVE)
