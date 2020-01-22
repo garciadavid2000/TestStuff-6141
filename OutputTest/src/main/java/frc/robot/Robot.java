@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,6 +24,9 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
+  private Spark test1 = new Spark(4);
+  private Spark test2 = new Spark(6);
 
   /**
    * This function is run when the robot is first started up and should be
@@ -93,5 +97,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    test1.set(-1);
+    test2.set(1);
   }
 }
