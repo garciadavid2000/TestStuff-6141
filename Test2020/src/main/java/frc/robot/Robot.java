@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  * directory.
  */
 public class Robot extends TimedRobot {
-  public VictorSP leftMotor1 = new VictorSP(1);
+  public VictorSP leftMotor1 = new VictorSP(0);
   public WPI_VictorSPX leftMotor2 = new WPI_VictorSPX(0);
   public VictorSP leftMotor3 = new VictorSP(2);
   public VictorSP rightMotor1 = new VictorSP(3);
@@ -135,7 +135,7 @@ public class Robot extends TimedRobot {
     // } else {
     //   test.stopMotor();; // stop robot
     //}
-      test.set(xStick.getY());
+      leftMotor1.set(1);
   
   }
 }

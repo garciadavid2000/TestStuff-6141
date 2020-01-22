@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.networktables.*;
 
@@ -38,16 +37,6 @@ public class Robot extends TimedRobot {
   private boolean m_LimelightHasValidTarget = false;
   private double m_LimelightDriveCommand = 0.0;
   private double m_LimelightSteerCommand = 0.0;
-
-  private NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
-  private NetworkTableEntry ledMode = limelight.getEntry("ledMode");
-  private NetworkTableEntry camMode = limelight.getEntry("camMode");
-  
-  private NetworkTableEntry tv = limelight.getEntry("tv");
-  private NetworkTableEntry tx = limelight.getEntry("tx");
-  private NetworkTableEntry ty = limelight.getEntry("ty");
-  private NetworkTableEntry ta = limelight.getEntry("ta");
-
 
   /**
    * This function is run when the robot is first started up and should be
@@ -105,30 +94,25 @@ public class Robot extends TimedRobot {
 
         double steer = m_Controller.getX(Hand.kRight);
         double drive = -m_Controller.getY(Hand.kLeft);
-        boolean auto = m_Controller.getRawButton(1);
+        boolean auto = m_Controller.getAButton();
 
         steer *= 0.70;
         drive *= 0.70;
 
-        if (auto) {
-          ledMode.setNumber(3);
-          camMode.setNumber(0);
+        if (auto)
+        {
           if (m_LimelightHasValidTarget)
           {
                 m_Drive.arcadeDrive(m_LimelightDriveCommand,m_LimelightSteerCommand);
-                m_Controller.setRumble(RumbleType.kLeftRumble, 0.5);
-                m_Controller.setRumble(RumbleType.kRightRumble, 0.5);
-          } else {
-                m_Drive.arcadeDrive(0.0,0.0);
-                m_Controller.setRumble(RumbleType.kLeftRumble, 0);
-                m_Controller.setRumble(RumbleType.kRightRumble, 0);
           }
-        } else {
-            ledMode.setNumber(1);
-            camMode.setNumber(1);
-            m_Controller.setRumble(RumbleType.kLeftRumble, 0);
-            m_Controller.setRumble(RumbleType.kRightRumble, 0);
-            m_Drive.arcadeDrive(drive,steer);
+          else
+          {
+                m_Drive.arcadeDrive(0.0,0.0);
+          }
+        }
+        else
+        {
+          m_Drive.arcadeDrive(drive,steer);
         }
   }
 
@@ -146,27 +130,14 @@ public class Robot extends TimedRobot {
         final double STEER_K = 0.03;                    // how hard to turn toward the target
         final double DRIVE_K = 0.26;                    // how hard to drive fwd toward the target
         final double DESIRED_TARGET_AREA = 13.0;        // Area of the target when the robot reaches the wall
-        final double MAX_DRIVE = 0.2;                   // Simple speed limit so we don't drive too fast
+        final double MAX_DRIVE = 0.7;                   // Simple speed limit so we don't drive too fast
 
-        double v = tv.getDouble(0);
-        double x = tx.getDouble(0);
-        double y = ty.getDouble(0);
-        double a = ta.getDouble(0);
-        
-        double d = 100;
+        double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+        double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+        double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+        double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
 
-        double drive_cmd;
-
-        SmartDashboard.putNumber("ta", a);
-        SmartDashboard.putNumber("tx", x);
-        SmartDashboard.putNumber("ty", y);
-        SmartDashboard.putNumber("tv", v);
-        SmartDashboard.putNumber("d", estimateDistance());      
-        
-
-        //test bruh
-
-        if (v < 1.0)
+        if (tv < 1.0)
         {
           m_LimelightHasValidTarget = false;
           m_LimelightDriveCommand = 0.0;
@@ -177,11 +148,11 @@ public class Robot extends TimedRobot {
         m_LimelightHasValidTarget = true;
 
         // Start with proportional steering
-        double steer_cmd = x * STEER_K;
+        double steer_cmd = tx * STEER_K;
         m_LimelightSteerCommand = steer_cmd;
 
         // try to drive forward until the target area reaches our desired area
-        drive_cmd = (DESIRED_TARGET_AREA - a) * DRIVE_K;
+        double drive_cmd = (DESIRED_TARGET_AREA - ta) * DRIVE_K;
 
         // don't let the robot drive too fast into the goal
         if (drive_cmd > MAX_DRIVE)
@@ -190,17 +161,4 @@ public class Robot extends TimedRobot {
         }
         m_LimelightDriveCommand = drive_cmd;
   }
-
-  public double estimateDistance(){
-      double h1 = 63.5; 
-      double h2 = 70;
-      double a1 = 0;
-      double a2 = ty.getDouble(0);
-
-      double d = (h2 -h1) / Math.tan(a1 + a2);
-      return d;
-
-
-  }
-
 }
