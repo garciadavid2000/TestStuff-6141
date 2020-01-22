@@ -164,7 +164,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("d", estimateDistance());      
         
 
-        //test
+        //test limelightTest
 
         if (v < 1.0)
         {
