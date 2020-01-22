@@ -35,7 +35,8 @@ public class Robot extends TimedRobot {
   public VictorSP rightMotor1 = new VictorSP(3);
   public VictorSP rightMotor2 = new VictorSP(4);
   public VictorSP rightMotor3 = new VictorSP(7);
-  public Spark test = new Spark(5);
+  public Spark test1 = new Spark(6);
+  public Spark test2 = new Spark(4);
 
   SpeedControllerGroup leftMotorGroup = new SpeedControllerGroup(leftMotor1, leftMotor2, leftMotor3);
   SpeedControllerGroup rightMotorGroup = new SpeedControllerGroup(rightMotor1, rightMotor2, rightMotor3);
@@ -46,6 +47,10 @@ public class Robot extends TimedRobot {
   //private final Joystick m_stick = new Joystick(0);
   private final XboxController xStick = new XboxController(0);
   Button buttonA = new JoystickButton(xStick, 1);
+
+  
+
+  //private DifferentialDrive outputTest = new DifferentialDrive(test2, test1);
   
   
   private final Timer m_timer = new Timer();
@@ -58,6 +63,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    
   }
 
   /**
@@ -83,9 +89,9 @@ public class Robot extends TimedRobot {
   // }
 
   if (m_timer.get() < 2.0) {
-    test.set(1); // drive forwards half speed
+    //test.set(1); // drive forwards half speed
   } else {
-    test.stopMotor(); // stop robot
+    //test.stopMotor(); // stop robot
   }
    }
 
@@ -135,7 +141,8 @@ public class Robot extends TimedRobot {
     // } else {
     //   test.stopMotor();; // stop robot
     //}
-      leftMotor1.set(1);
+      test1.set(1);
+      test2.set(-1);
   
   }
 }
