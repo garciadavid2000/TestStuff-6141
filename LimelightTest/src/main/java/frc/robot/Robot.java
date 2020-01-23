@@ -55,9 +55,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-        m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-        m_chooser.addOption("My Auto", kCustomAuto);
-        SmartDashboard.putData("Auto choices", m_chooser);
+        
+      //   m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+      //   m_chooser.addOption("My Auto", kCustomAuto);
+      //   SmartDashboard.putData("Auto choices", m_chooser);
   }
 
   /**
@@ -85,7 +86,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-        m_autoSelected = m_chooser.getSelected();
+        //m_autoSelected = m_chooser.getSelected();
   }
 
   /**
@@ -192,12 +193,12 @@ public class Robot extends TimedRobot {
   }
 
   public double estimateDistance(){
-      double h1 = 63.5; 
-      double h2 = 70;
-      double a1 = 0;
+      double h1 = 1; 
+      double h2 = 142.5;
+      double a1 = 2;
       double a2 = ty.getDouble(0);
 
-      double d = (h2 -h1) / Math.tan(a1 + a2);
+      double d = (h2 - h1) / (Math.tan(a1 + a2));
       return d;
 
 
