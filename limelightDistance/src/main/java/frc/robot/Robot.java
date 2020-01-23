@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,6 +26,21 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
+  private NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
+
+  //getters
+  private NetworkTableEntry tv = limelight.getEntry("tv");
+  private NetworkTableEntry ty = limelight.getEntry("ty");
+  private NetworkTableEntry tx = limelight.getEntry("tx");
+
+
+  //setters
+  private NetworkTableEntry ledMode = limelight.getEntry("ledMde");
+  private NetworkTableEntry camMode = limelight.getEntry("camMode");
+
+  private double d = 0;
+
 
   /**
    * This function is run when the robot is first started up and should be
@@ -93,5 +111,29 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    estimateDistance();
+
+    SmartDashboard.putNumber("tv", tv.getDouble(0));
+    SmartDashboard.putNumber("ty", ty.getDouble(0));
+    SmartDashboard.putNumber("tx", tx.getDouble(0));
+    SmartDashboard.putNumber("d", d);
+
+
   }
+
+  public void estimateDistance() {
+    double h1 = 0;
+    double h2 = 0;
+    double a1 = 0;
+    double a2 = tv.getDouble(0);
+
+    d = (h2 - h1) / Math.tan(a1 + a2);
+
+
+
+
+  }
+
+
+
 }
