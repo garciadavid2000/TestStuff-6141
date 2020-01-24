@@ -29,8 +29,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  * directory.
  */
 public class Robot extends TimedRobot {
-  public VictorSP leftMotor1 = new VictorSP(1);
-  public WPI_VictorSPX leftMotor2 = new WPI_VictorSPX(0);
+  public VictorSP leftMotor1 = new VictorSP(0);
+  public VictorSP leftMotor2 = new VictorSP(1);
   public VictorSP leftMotor3 = new VictorSP(2);
   public VictorSP rightMotor1 = new VictorSP(3);
   public VictorSP rightMotor2 = new VictorSP(4);
@@ -114,28 +114,8 @@ public class Robot extends TimedRobot {
     
 
 
-    // if(buttonA.get()) {
-    //   test.set(1);
-    //   xStick.setRumble(RumbleType.kLeftRumble, 1);
-    //   xStick.setRumble(RumbleType.kRightRumble, 1);
-    // } else {
-    //   test.set(0);
-    //   xStick.setRumble(RumbleType.kLeftRumble, 0);
-    //   xStick.setRumble(RumbleType.kRightRumble, 0);
-    //}
-
-    
-    // for (int i = 0; i < 1; i++) {
-    //   m_timer.reset();
-    //   m_timer.start();
-    // }
-
-    // if (m_timer.get() < 2.0) {
-    //   test.set(1); // drive forwards half speed
-    // } else {
-    //   test.stopMotor();; // stop robot
-    //}
-      test.set(xStick.getY());
+    //leftMotor1.set(1);
+    leftMotor2.set(1);
   
   }
 }
