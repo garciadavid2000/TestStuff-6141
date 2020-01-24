@@ -51,6 +51,8 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    
   }
 
   /**
@@ -111,6 +113,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    ledMode.setNumber(3);
+    camMode.setNumber(0);
+    
     estimateDistance();
 
     SmartDashboard.putNumber("tv", tv.getDouble(0));
@@ -122,8 +127,8 @@ public class Robot extends TimedRobot {
   }
 
   public void estimateDistance() {
-    double h1 = 0;
-    double h2 = 0;
+    double h1 = 37;
+    double h2 = 35;
     double a1 = 0;
     double a2 = tv.getDouble(0);
 

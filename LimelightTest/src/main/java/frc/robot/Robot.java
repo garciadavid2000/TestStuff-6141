@@ -193,9 +193,9 @@ public class Robot extends TimedRobot {
   }
 
   public double estimateDistance(){
-      double h1 = 1; 
-      double h2 = 142.5;
-      double a1 = 2;
+      double h1 = 33.5; 
+      double h2 = 35;
+      double a1 = 0;
       double a2 = ty.getDouble(0);
 
       double d = (h2 - h1) / (Math.tan(a1 + a2));
