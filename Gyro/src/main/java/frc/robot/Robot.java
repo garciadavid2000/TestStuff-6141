@@ -7,7 +7,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -24,6 +26,21 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+   // Variable Declarations
+  double leftSlow = 0.24;
+  double rightSlow = -0.24;
+  double rotateSpeed = 0.35;
+  double rotateSpeedSlow = 0.25;
+
+  // Inputs
+  AnalogGyro gyro = new AnalogGyro(0); // ANA Ch. 0
+  // *NOTE* the Gyroscope purchased defines a 300 degree full rotation! (not 360!!)
+
+  // Outputs
+  VictorSP victorLeft = new VictorSP(0);  // PWM Ch. 0
+  VictorSP victorRight = new VictorSP(1); // PWM Ch. 1
+  
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -33,6 +50,8 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    gyro.reset();
   }
 
   /**
@@ -63,6 +82,8 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
+
+    gyro.reset();
   }
 
   /**
@@ -76,9 +97,47 @@ public class Robot extends TimedRobot {
         break;
       case kDefaultAuto:
       default:
-        // Put default auto code here
+      if (Math.abs(gyro.getAngle()) <= 3) {
+        victorLeft.set(leftSlow - (gyro.getAngle()) / 15);
+        victorRight.set(rightSlow - (gyro.getAngle()) / 15);
+       } else if (Math.abs(gyro.getAngle()) < 10) {
+        if (gyro.getAngle() > 0) {
+         victorLeft.set(leftSlow);
+         victorRight.set(1.1 * rightSlow);
+        } else if (gyro.getAngle() < 0) {
+         victorLeft.set(1.1 * leftSlow);
+         victorRight.set(rightSlow);
+        }
+       } else
+        if (gyro.getAngle() > 0) {
+         while (gyro.getAngle() > 10 && isAutonomous()) {
+          victorLeft.set(-rotateSpeed);
+          victorRight.set(-rotateSpeed);
+         }
+        while (gyro.getAngle() > 0 && isAutonomous()) {
+         victorLeft.set(-rotateSpeedSlow);
+         victorRight.set(-rotateSpeedSlow);
+        }
+        while (gyro.getAngle() < 0 && isAutonomous()) {
+         victorLeft.set(rotateSpeedSlow);
+         victorRight.set(rotateSpeedSlow);
+        }
+       } else {
+        while (gyro.getAngle() < -10 && isAutonomous()) {
+         victorLeft.set(rotateSpeed);
+         victorRight.set(rotateSpeed);
+        }
+        while (gyro.getAngle() < 0 && isAutonomous()) {
+         victorLeft.set(rotateSpeedSlow);
+         victorRight.set(rotateSpeedSlow);
+        }
+        while (gyro.getAngle() > 0 && isAutonomous()) {
+         victorLeft.set(-rotateSpeedSlow);
+         victorRight.set(-rotateSpeedSlow);
+        }
         break;
     }
+  }
   }
 
   /**
