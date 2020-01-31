@@ -10,7 +10,9 @@ package frc.robot;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMax;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PWMSparkMax;
+import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -29,8 +31,9 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-
+  private Joystick stick = new Joystick(0);
   private PWMSparkMax motorTest = new PWMSparkMax(8);
+  private SlewRateLimiter stickFilter = new SlewRateLimiter(0.5);
 
 
   /**
@@ -103,7 +106,7 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
 
-    motorTest.set(1);
+    motorTest.set(stickFilter.calculate(stick.getY()));
 
   }
 }
