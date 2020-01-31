@@ -7,8 +7,12 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMax;
+
 import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -26,7 +30,8 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
 
-  private PWMSparkMax motorTest = new PWMSparkMax(7);
+  private PWMSparkMax motorTest = new PWMSparkMax(8);
+
 
   /**
    * This function is run when the robot is first started up and should be
@@ -98,7 +103,7 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
 
-    motorTest.set(3);
+    motorTest.set(1);
 
   }
 }
