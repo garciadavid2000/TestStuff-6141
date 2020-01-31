@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private Joystick stick = new Joystick(0);
-  private PWMSparkMax motorTest = new PWMSparkMax(8);
+  private PWMSparkMax motorTest = new PWMSparkMax(7);
   private SlewRateLimiter stickFilter = new SlewRateLimiter(0.5);
 
 
@@ -106,7 +106,8 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
 
-    motorTest.set(stickFilter.calculate(stick.getY()));
+    //motorTest.set(stickFilter.calculate(stick.getY()));
+    motorTest.set(1);
 
   }
 }
