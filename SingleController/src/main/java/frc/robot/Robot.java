@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * range from -1 to 1 making it easy to work together.
  */
 public class Robot extends TimedRobot {
-  private static final int kMotorPort = 4;
+  private static final int kMotorPort = 5;
   private static final int kJoystickPort = 0;
 
   private Spark motor;
@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    motor.set(1);
-    motor2.set(-1);
+    motor.set(0.1);
+    motor2.set(0.1);
   }
 }
