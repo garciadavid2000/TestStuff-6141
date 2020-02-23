@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -40,12 +42,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    m_motor = new PWMVictorSPX(kMotorPort);
+    m_motor = new VictorSP(kMotorPort);
     m_joystick = new Joystick(kJoystickPort);
-    m_encoder = new Encoder(kEncoderPortA, kEncoderPortB);
+    m_encoder = new Encoder(kEncoderPortA, kEncoderPortB, false, EncodingType.k2X);
     // Use SetDistancePerPulse to set the multiplier for GetDistance
     // This is set up assuming a 6 inch wheel with a 360 CPR encoder.
-    m_encoder.setDistancePerPulse((Math.PI * 6) / 4096);
+    m_encoder.reset();
+    m_encoder.setDistancePerPulse(1./1024.);
+    
 
     
     
@@ -63,6 +67,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    m_motor.set(m_joystick.getY());
+    m_motor.set(0.5);
+    System.out.println(m_encoder.getDistance());
   }
 }
